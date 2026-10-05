@@ -5,8 +5,15 @@ import {
   SlidersHorizontal,
   Terminal,
 } from 'lucide-react';
+import { useNavigate } from 'react-router';
 
 const Home: React.FC = (): React.JSX.Element => {
+  const navigate = useNavigate();
+
+  const handlePackageManagerClick = () => navigate('/packages');
+  const handleServiceManagerClick = () => navigate('/services');
+  const handleTweaksClick = () => navigate('/tweaks');
+
   return (
     <div className="min-h-screen overflow-y-auto px-8 py-10 text-white lg:px-14 lg:py-14">
       <div className="mx-auto max-w-6xl">
@@ -61,13 +68,17 @@ const Home: React.FC = (): React.JSX.Element => {
                   utility.
                 </p>
               </div>
-              <div className="mt-7 flex items-center gap-2 text-sm font-medium text-sky-300">
+              <button
+                type="button"
+                className="mt-7 flex items-center gap-2 text-sm font-medium text-sky-300 cursor-pointer group-hover:underline group-hover:underline-offset-4"
+                onClick={handlePackageManagerClick}
+              >
                 Package manager{' '}
                 <ArrowUpRight
                   size={16}
                   className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
                 />
-              </div>
+              </button>
             </article>
 
             <article className="group flex min-h-56 flex-col justify-between rounded-2xl border border-white/10 bg-white/4.5 p-6 transition-colors duration-300 hover:border-amber-300/40 hover:bg-amber-300/7">
@@ -81,13 +92,17 @@ const Home: React.FC = (): React.JSX.Element => {
                   in control.
                 </p>
               </div>
-              <div className="mt-7 flex items-center gap-2 text-sm font-medium text-amber-300">
+              <button
+                type="button"
+                className="mt-7 flex items-center gap-2 text-sm font-medium text-amber-300 cursor-pointer group-hover:underline group-hover:underline-offset-4"
+                onClick={handleServiceManagerClick}
+              >
                 Service manager{' '}
                 <ArrowUpRight
                   size={16}
                   className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
                 />
-              </div>
+              </button>
             </article>
 
             <article className="group flex min-h-56 flex-col justify-between rounded-2xl border border-white/10 bg-white/4.5 p-6 transition-colors duration-300 hover:border-fuchsia-300/40 hover:bg-fuchsia-300/7">
@@ -101,13 +116,17 @@ const Home: React.FC = (): React.JSX.Element => {
                   your way.
                 </p>
               </div>
-              <div className="mt-7 flex items-center gap-2 text-sm font-medium text-fuchsia-300">
+              <button
+                type="button"
+                className="mt-7 flex items-center gap-2 text-sm font-medium text-fuchsia-300 cursor-pointer group-hover:underline group-hover:underline-offset-4"
+                onClick={handleTweaksClick}
+              >
                 System tuning{' '}
                 <ArrowUpRight
                   size={16}
                   className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
                 />
-              </div>
+              </button>
             </article>
           </div>
         </section>
