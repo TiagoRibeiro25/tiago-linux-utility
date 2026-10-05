@@ -46,14 +46,14 @@ const Navbar: React.FC = (): React.JSX.Element => {
       <div className="mt-auto border-t border-white/5 px-3 pt-4">
         <button
           type="button"
-          title="Open GitHub profile"
-          aria-label="Open GitHub profile"
+          title="Open GitHub Repository"
+          aria-label="Open GitHub Repository"
           className="flex w-full cursor-pointer items-center justify-between rounded-lg px-3 py-2 text-white/35 transition-colors hover:bg-white/5 hover:text-white/80"
           onClick={handleGitClick}
         >
           <span className="flex items-center gap-3 text-xs font-medium">
             <FolderGit2 size={17} />
-            GitHub profile
+            GitHub Repository
           </span>
           <ExternalLink size={13} />
         </button>
