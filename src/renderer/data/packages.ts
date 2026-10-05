@@ -7,6 +7,15 @@ export type Package = {
   category: Category;
 };
 
+export const CATEGORIES: Category[] = [
+  'Development',
+  'Internet',
+  'Multimedia',
+  'Office',
+  'Games',
+  'Utilities',
+];
+
 export const PACKAGES: Package[] = [
   {
     label: 'AnyDesk',

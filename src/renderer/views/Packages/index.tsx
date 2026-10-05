@@ -11,16 +11,7 @@ import {
   SlidersHorizontal,
   Wrench,
 } from 'lucide-react';
-import { PACKAGES, Package } from '../../data/packages';
-
-const CATEGORY_ORDER = [
-  'Development',
-  'Internet',
-  'Multimedia',
-  'Office',
-  'Games',
-  'Utilities',
-] as const;
+import { PACKAGES, Package, CATEGORIES } from '../../data/packages';
 
 const CATEGORY_ICONS = {
   Development: Code2,
@@ -35,7 +26,7 @@ const Packages: React.FC = (): React.JSX.Element => {
   const [selectedPackages, setSelectedPackages] = useState<Set<string>>(
     new Set(),
   );
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState<string>('');
 
   const visiblePackages = PACKAGES.filter((item) => {
     const searchValue = searchTerm.toLowerCase();
@@ -45,7 +36,7 @@ const Packages: React.FC = (): React.JSX.Element => {
     );
   });
 
-  const packagesByCategory = CATEGORY_ORDER.reduce<Record<string, Package[]>>(
+  const packagesByCategory = CATEGORIES.reduce<Record<string, Package[]>>(
     (groups, category) => {
       groups[category] = visiblePackages.filter(
         (item) => item.category === category,
@@ -122,7 +113,7 @@ const Packages: React.FC = (): React.JSX.Element => {
             type="button"
             onClick={clearSelection}
             disabled={selectedPackages.size === 0}
-            className="flex h-12 items-center justify-center gap-2 rounded-xl border border-white/10 px-5 text-sm font-medium text-white/60 transition-colors hover:border-white/25 hover:text-white disabled:cursor-not-allowed disabled:opacity-35"
+            className="flex h-12 items-center justify-center gap-2 rounded-xl border border-white/10 px-5 text-sm font-medium text-white/60 transition-colors hover:border-white/25 hover:text-white disabled:cursor-not-allowed disabled:opacity-35 cursor-pointer"
           >
             <SlidersHorizontal size={16} />
             Clear selection
@@ -130,7 +121,7 @@ const Packages: React.FC = (): React.JSX.Element => {
           <button
             type="button"
             disabled={selectedPackages.size === 0}
-            className="flex h-12 items-center justify-center gap-2 rounded-xl bg-sky-300 px-6 text-sm font-semibold text-slate-950 transition-colors hover:bg-sky-200 disabled:cursor-not-allowed disabled:opacity-35"
+            className="flex h-12 items-center justify-center gap-2 rounded-xl bg-sky-300 px-6 text-sm font-semibold text-slate-950 transition-colors hover:bg-sky-200 disabled:cursor-not-allowed disabled:opacity-35 cursor-pointer"
           >
             <PackagePlus size={17} />
             Install selected
@@ -138,7 +129,7 @@ const Packages: React.FC = (): React.JSX.Element => {
         </div>
 
         <div className="space-y-9 pb-10">
-          {CATEGORY_ORDER.map((category) => {
+          {CATEGORIES.map((category) => {
             const categoryPackages = packagesByCategory[category];
             if (categoryPackages.length === 0) return null;
 
@@ -211,7 +202,7 @@ const Packages: React.FC = (): React.JSX.Element => {
               <button
                 type="button"
                 onClick={() => setSearchTerm('')}
-                className="mt-3 text-sm font-medium text-sky-300 hover:text-sky-200"
+                className="mt-3 text-sm font-medium text-sky-300 hover:text-sky-200 cursor-pointer"
               >
                 Clear search
               </button>
