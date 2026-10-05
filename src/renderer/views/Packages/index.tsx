@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   BriefcaseBusiness,
   Check,
@@ -27,6 +27,18 @@ const Packages: React.FC = (): React.JSX.Element => {
     new Set(),
   );
   const [searchTerm, setSearchTerm] = useState<string>('');
+  const [isInstalling, setIsInstalling] = useState<boolean>(false);
+  const [installResult, setInstallResult] = useState<{
+    success: boolean;
+    message: string;
+  } | null>(null);
+  const [installProgress, setInstallProgress] = useState<string[]>([]);
+
+  useEffect(() => {
+    return window.electron.packages.onInstallProgress((message: string) => {
+      setInstallProgress((currentProgress: string[]) => [...currentProgress, message]);
+    });
+  }, []);
 
   const visiblePackages = PACKAGES.filter((item) => {
     const searchValue = searchTerm.toLowerCase();
@@ -59,6 +71,32 @@ const Packages: React.FC = (): React.JSX.Element => {
   };
 
   const clearSelection = (): void => setSelectedPackages(new Set());
+
+  const installSelectedPackages = async (): Promise<void> => {
+    if (selectedPackages.size === 0 || isInstalling) return;
+
+    setInstallResult(null);
+    setInstallProgress([]);
+    setIsInstalling(true);
+
+    try {
+      const result = await window.electron.packages.install(
+        Array.from(selectedPackages),
+      );
+      setInstallResult(result);
+      if (result.success) clearSelection();
+    } catch (error) {
+      setInstallResult({
+        success: false,
+        message:
+          error instanceof Error
+            ? error.message
+            : 'The package installation could not be completed.',
+      });
+    } finally {
+      setIsInstalling(false);
+    }
+  };
 
   return (
     <div className="min-h-screen overflow-y-auto px-6 py-8 text-white lg:px-12 lg:py-10">
@@ -112,7 +150,7 @@ const Packages: React.FC = (): React.JSX.Element => {
           <button
             type="button"
             onClick={clearSelection}
-            disabled={selectedPackages.size === 0}
+            disabled={selectedPackages.size === 0 || isInstalling}
             className="flex h-12 items-center justify-center gap-2 rounded-xl border border-white/10 px-5 text-sm font-medium text-white/60 transition-colors hover:border-white/25 hover:text-white disabled:cursor-not-allowed disabled:opacity-35 cursor-pointer"
           >
             <SlidersHorizontal size={16} />
@@ -120,13 +158,52 @@ const Packages: React.FC = (): React.JSX.Element => {
           </button>
           <button
             type="button"
-            disabled={selectedPackages.size === 0}
+            onClick={installSelectedPackages}
+            disabled={selectedPackages.size === 0 || isInstalling}
             className="flex h-12 items-center justify-center gap-2 rounded-xl bg-sky-300 px-6 text-sm font-semibold text-slate-950 transition-colors hover:bg-sky-200 disabled:cursor-not-allowed disabled:opacity-35 cursor-pointer"
           >
             <PackagePlus size={17} />
             Install selected
           </button>
         </div>
+
+        {(isInstalling || installResult) && (
+          <section
+            className={`mb-8 rounded-xl border p-5 ${
+              installResult?.success
+                ? 'border-emerald-300/30 bg-emerald-300/6'
+                : installResult
+                  ? 'border-rose-300/30 bg-rose-300/6'
+                  : 'border-sky-300/30 bg-sky-300/6'
+            }`}
+            aria-live="polite"
+          >
+            <div className="flex items-center gap-3">
+              {isInstalling && (
+                <span className="h-4 w-4 animate-spin rounded-full border-2 border-sky-200/30 border-t-sky-300" />
+              )}
+              <h2 className="font-medium">
+                {isInstalling
+                  ? 'Installing selected packages...'
+                  : installResult?.success
+                    ? 'Installation complete'
+                    : 'Installation failed'}
+              </h2>
+            </div>
+            <p className="mt-2 text-sm text-white/60">
+              {isInstalling
+                ? 'A polkit permission dialog may appear. Keep this window open while yay works.'
+                : installResult?.message}
+            </p>
+            {installProgress.length > 0 && (
+              <div className="mt-4 max-h-32 overflow-y-auto rounded-lg bg-black/20 p-3 font-mono text-xs leading-5 text-white/50">
+                {installProgress.map((message, index) => (
+                  <p key={`${message}-${index}`}>{message}</p>
+                ))}
+              </div>
+            )}
+          </section>
+        )}
 
         <div className="space-y-9 pb-10">
           {CATEGORIES.map((category) => {

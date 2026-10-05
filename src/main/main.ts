@@ -1,7 +1,8 @@
 /* eslint no-console: off, promise/always-return: off */
 import path from 'path';
-import { app, BrowserWindow, Menu, shell } from 'electron';
+import { app, BrowserWindow, Menu, shell, ipcMain } from 'electron';
 import log from 'electron-log';
+import { installPackages } from './packageInstaller';
 import { resolveHtmlPath } from './util';
 import startAutoUpdates from './updates';
 
@@ -10,6 +11,14 @@ import startAutoUpdates from './updates';
 Menu.setApplicationMenu(null);
 
 let mainWindow: BrowserWindow | null = null;
+
+const sendInstallProgress = (message: string): void => {
+  mainWindow?.webContents.send('packages:install-progress', message);
+};
+
+ipcMain.handle('packages:install', (_, packageNames: unknown) =>
+  installPackages(packageNames, sendInstallProgress),
+);
 
 if (process.env.NODE_ENV === 'production') {
   process.setSourceMapsEnabled(true);

@@ -4,6 +4,11 @@ import { contextBridge, ipcRenderer, IpcRendererEvent } from 'electron';
 
 export type Channels = string;
 
+export type PackageInstallResult = {
+  success: boolean;
+  message: string;
+};
+
 const electronHandler = {
   ipcRenderer: {
     sendMessage(channel: Channels, ...args: unknown[]) {
@@ -20,6 +25,23 @@ const electronHandler = {
     },
     once(channel: Channels, func: (...args: unknown[]) => void) {
       ipcRenderer.once(channel, (_event, ...args) => func(...args));
+    },
+    invoke(channel: Channels, ...args: unknown[]) {
+      return ipcRenderer.invoke(channel, ...args);
+    },
+  },
+  packages: {
+    install(packageNames: string[]): Promise<PackageInstallResult> {
+      return ipcRenderer.invoke('packages:install', packageNames);
+    },
+    onInstallProgress(listener: (message: string) => void) {
+      const subscription = (_event: IpcRendererEvent, message: string) =>
+        listener(message);
+      ipcRenderer.on('packages:install-progress', subscription);
+
+      return () => {
+        ipcRenderer.removeListener('packages:install-progress', subscription);
+      };
     },
   },
 };

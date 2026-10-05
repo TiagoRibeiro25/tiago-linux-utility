@@ -143,6 +143,11 @@ export const PACKAGES: Package[] = [
     category: 'Development',
   },
   {
+    label: 'Microsoft Edge',
+    packageName: 'microsoft-edge-stable-bin',
+    category: 'Internet',
+  },
+  {
     label: 'MongoDB Compass',
     packageName: 'mongodb-compass',
     category: 'Development',
