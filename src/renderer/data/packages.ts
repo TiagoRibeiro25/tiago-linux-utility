@@ -53,6 +53,11 @@ export const PACKAGES: Package[] = [
     category: 'Development',
   },
   {
+    label: 'Docker Compose',
+    packageName: 'docker-compose',
+    category: 'Development',
+  },
+  {
     label: 'EasyEffects',
     packageName: 'easyeffects',
     category: 'Multimedia',
@@ -100,6 +105,11 @@ export const PACKAGES: Package[] = [
   {
     label: 'Intel Undervolt',
     packageName: 'intel-undervolt',
+    category: 'Utilities',
+  },
+  {
+    label: 'Jdownloader',
+    packageName: 'jdownloader2',
     category: 'Utilities',
   },
   {
