@@ -7,7 +7,7 @@ import {
   ServerCog,
   ShieldCheck,
 } from 'lucide-react';
-import { SERVICES } from '../../data/services';
+import { SERVICES, Service } from '../../data/services';
 
 const Services: React.FC = (): React.JSX.Element => {
   const [selectedServices, setSelectedServices] = useState<Set<string>>(
@@ -174,7 +174,7 @@ const Services: React.FC = (): React.JSX.Element => {
           </div>
 
           <div className="grid gap-3 sm:grid-cols-2">
-            {SERVICES.map((service) => {
+            {SERVICES.map((service: Service) => {
               const isSelected = selectedServices.has(service.serviceName);
               return (
                 <label
