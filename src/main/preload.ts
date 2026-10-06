@@ -9,6 +9,11 @@ export type PackageInstallResult = {
   message: string;
 };
 
+export type ServiceEnableResult = {
+  success: boolean;
+  message: string;
+};
+
 const electronHandler = {
   ipcRenderer: {
     sendMessage(channel: Channels, ...args: unknown[]) {
@@ -41,6 +46,20 @@ const electronHandler = {
 
       return () => {
         ipcRenderer.removeListener('packages:install-progress', subscription);
+      };
+    },
+  },
+  services: {
+    enable(serviceNames: string[]): Promise<ServiceEnableResult> {
+      return ipcRenderer.invoke('services:enable', serviceNames);
+    },
+    onEnableProgress(listener: (message: string) => void) {
+      const subscription = (_event: IpcRendererEvent, message: string) =>
+        listener(message);
+      ipcRenderer.on('services:enable-progress', subscription);
+
+      return () => {
+        ipcRenderer.removeListener('services:enable-progress', subscription);
       };
     },
   },

@@ -3,6 +3,7 @@ import path from 'path';
 import { app, BrowserWindow, Menu, shell, ipcMain } from 'electron';
 import log from 'electron-log';
 import { installPackages } from './packageInstaller';
+import { enableServices } from './serviceManager';
 import { resolveHtmlPath } from './util';
 import startAutoUpdates from './updates';
 
@@ -16,8 +17,16 @@ const sendInstallProgress = (message: string): void => {
   mainWindow?.webContents.send('packages:install-progress', message);
 };
 
+const sendServiceProgress = (message: string): void => {
+  mainWindow?.webContents.send('services:enable-progress', message);
+};
+
 ipcMain.handle('packages:install', (_, packageNames: unknown) =>
   installPackages(packageNames, sendInstallProgress),
+);
+
+ipcMain.handle('services:enable', (_, serviceNames: unknown) =>
+  enableServices(serviceNames, sendServiceProgress),
 );
 
 if (process.env.NODE_ENV === 'production') {
