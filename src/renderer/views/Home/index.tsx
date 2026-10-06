@@ -32,6 +32,10 @@ const Home: React.FC = (): React.JSX.Element => {
               A focused control center for keeping your Linux system ready.
               Install what you need, manage what is running, and tune the small
               things that make a big difference.
+              <br />
+              <br />
+              This utility is designed for CachyOS, although not tested, it may
+              work on other Arch-based distributions.
             </p>
           </div>
 
