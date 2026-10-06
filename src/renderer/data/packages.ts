@@ -238,11 +238,6 @@ export const PACKAGES: Package[] = [
     category: 'Development',
   },
   {
-    label: 'Samrewritten',
-    packageName: 'samrewritten',
-    category: 'Games',
-  },
-  {
     label: 'Spotify (Adblock)',
     packageName: 'spotify-adblock-git',
     category: 'Multimedia',
