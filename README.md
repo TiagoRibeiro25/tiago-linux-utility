@@ -25,11 +25,6 @@ distributions.
 - `yay` installed and available in `PATH`
 - The Chaotic-AUR repository enabled
 
-```ini
-[chaotic-aur]
-Include = /etc/pacman.d/chaotic-mirrorlist
-```
-
 ## Development
 
 Clone the repository and install dependencies:
