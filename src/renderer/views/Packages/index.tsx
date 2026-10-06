@@ -11,7 +11,7 @@ import {
   SlidersHorizontal,
   Wrench,
 } from 'lucide-react';
-import { PACKAGES, Package, CATEGORIES } from '../../data/packages';
+import { PACKAGES, Package, CATEGORIES, Category } from '../../data/packages';
 
 const CATEGORY_ICONS = {
   Development: Code2,
@@ -206,7 +206,7 @@ const Packages: React.FC = (): React.JSX.Element => {
         )}
 
         <div className="space-y-9 pb-10">
-          {CATEGORIES.map((category) => {
+          {CATEGORIES.map((category: Category) => {
             const categoryPackages = packagesByCategory[category];
             if (categoryPackages.length === 0) return null;
 

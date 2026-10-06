@@ -1,4 +1,4 @@
-type Category =
+export type Category =
   'Development' | 'Games' | 'Internet' | 'Multimedia' | 'Office' | 'Utilities';
 
 export type Package = {
@@ -70,6 +70,21 @@ export const PACKAGES: Package[] = [
   {
     label: 'Fcitx5',
     packageName: 'fcitx5',
+    category: 'Utilities',
+  },
+  {
+    label: 'Fcitx5 Config Tool',
+    packageName: 'fcitx5-configtool',
+    category: 'Utilities',
+  },
+  {
+    label: 'Firewalld',
+    packageName: 'firewalld',
+    category: 'Utilities',
+  },
+  {
+    label: 'Firewalld GUI',
+    packageName: 'firewall-config',
     category: 'Utilities',
   },
   {
@@ -250,6 +265,16 @@ export const PACKAGES: Package[] = [
   {
     label: 'Throttled',
     packageName: 'throttled',
+    category: 'Utilities',
+  },
+  {
+    label: 'TLP',
+    packageName: 'tlp',
+    category: 'Utilities',
+  },
+  {
+    label: 'TLPUI',
+    packageName: 'tlpui',
     category: 'Utilities',
   },
   {
