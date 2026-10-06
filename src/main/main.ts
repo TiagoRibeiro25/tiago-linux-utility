@@ -4,6 +4,7 @@ import { app, BrowserWindow, Menu, shell, ipcMain } from 'electron';
 import log from 'electron-log';
 import { installPackages } from './packageInstaller';
 import { enableServices } from './serviceManager';
+import { applyTweaks } from './tweakManager';
 import { resolveHtmlPath } from './util';
 import startAutoUpdates from './updates';
 
@@ -21,12 +22,20 @@ const sendServiceProgress = (message: string): void => {
   mainWindow?.webContents.send('services:enable-progress', message);
 };
 
+const sendTweakProgress = (message: string): void => {
+  mainWindow?.webContents.send('tweaks:apply-progress', message);
+};
+
 ipcMain.handle('packages:install', (_, packageNames: unknown) =>
   installPackages(packageNames, sendInstallProgress),
 );
 
 ipcMain.handle('services:enable', (_, serviceNames: unknown) =>
   enableServices(serviceNames, sendServiceProgress),
+);
+
+ipcMain.handle('tweaks:apply', (_, tweakIndexes: unknown) =>
+  applyTweaks(tweakIndexes, sendTweakProgress),
 );
 
 if (process.env.NODE_ENV === 'production') {

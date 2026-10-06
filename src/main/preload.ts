@@ -14,6 +14,11 @@ export type ServiceEnableResult = {
   message: string;
 };
 
+export type TweakApplyResult = {
+  success: boolean;
+  message: string;
+};
+
 const electronHandler = {
   ipcRenderer: {
     sendMessage(channel: Channels, ...args: unknown[]) {
@@ -60,6 +65,20 @@ const electronHandler = {
 
       return () => {
         ipcRenderer.removeListener('services:enable-progress', subscription);
+      };
+    },
+  },
+  tweaks: {
+    apply(tweakIndexes: number[]): Promise<TweakApplyResult> {
+      return ipcRenderer.invoke('tweaks:apply', tweakIndexes);
+    },
+    onApplyProgress(listener: (message: string) => void) {
+      const subscription = (_event: IpcRendererEvent, message: string) =>
+        listener(message);
+      ipcRenderer.on('tweaks:apply-progress', subscription);
+
+      return () => {
+        ipcRenderer.removeListener('tweaks:apply-progress', subscription);
       };
     },
   },
