@@ -43,7 +43,7 @@ export const PACKAGES: Package[] = [
     category: 'Utilities',
   },
   {
-    label: 'Desktop Plus',
+    label: 'Desktop Plus (AUR)',
     packageName: 'desktop-plus-bin',
     category: 'Development',
   },
@@ -291,6 +291,16 @@ export const PACKAGES: Package[] = [
     label: 'Visual Studio Code',
     packageName: 'visual-studio-code-bin',
     category: 'Development',
+  },
+  {
+    label: 'VLC',
+    packageName: 'vlc',
+    category: 'Multimedia',
+  },
+  {
+    label: 'VM Curator (AUR)',
+    packageName: 'vm-curator-bin',
+    category: 'Utilities',
   },
   {
     label: 'Vulkan Tools',
