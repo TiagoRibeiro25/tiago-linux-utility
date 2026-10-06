@@ -1,7 +1,8 @@
 /* eslint no-console: off, promise/always-return: off */
 import path from 'path';
-import { app, BrowserWindow, Menu, shell, ipcMain } from 'electron';
+import { app, BrowserWindow, Menu, shell, ipcMain, dialog } from 'electron';
 import log from 'electron-log';
+import { checkEnvironment, EnvironmentCheckResult } from './environmentCheck';
 import { installPackages } from './packageInstaller';
 import { enableServices } from './serviceManager';
 import { applyTweaks } from './tweakManager';
@@ -24,6 +25,31 @@ const sendServiceProgress = (message: string): void => {
 
 const sendTweakProgress = (message: string): void => {
   mainWindow?.webContents.send('tweaks:apply-progress', message);
+};
+
+const showEnvironmentWarnings = async (
+  environment: EnvironmentCheckResult,
+): Promise<void> => {
+  const missingRequirements: string[] = [];
+
+  if (!environment.yayInstalled) {
+    missingRequirements.push('yay is not installed or is not available in PATH.');
+  }
+  if (!environment.chaoticAurEnabled) {
+    missingRequirements.push(
+      'The Chaotic-AUR repository is not enabled in /etc/pacman.conf.',
+    );
+  }
+
+  if (missingRequirements.length === 0) return;
+
+  await dialog.showMessageBox(mainWindow ?? undefined, {
+    type: 'warning',
+    title: 'System setup needed',
+    message: 'Some Tiago Linux Utility features may not work yet.',
+    detail: missingRequirements.join('\n'),
+    buttons: ['OK'],
+  });
 };
 
 ipcMain.handle('packages:install', (_, packageNames: unknown) =>
@@ -134,6 +160,7 @@ app
   .whenReady()
   .then(async () => {
     await createWindow();
+    await showEnvironmentWarnings(await checkEnvironment());
     startAutoUpdates();
   })
   .catch((error: unknown) => {

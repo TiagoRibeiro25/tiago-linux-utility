@@ -19,7 +19,7 @@ const NavButtons: React.FC<Props> = ({
   };
 
   return (
-    <div className="flex items-center justify-between rounded-lg border border-white/5 bg-white/[0.03] px-1 py-1">
+    <div className="flex items-center justify-between rounded-lg border border-white/5 bg-white/3 px-1 py-1">
       <button
         type="button"
         title="Go back"
