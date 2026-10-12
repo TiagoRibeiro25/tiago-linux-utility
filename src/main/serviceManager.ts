@@ -10,9 +10,7 @@ type ProgressListener = (message: string) => void;
 
 const SERVICE_NAME_PATTERN = /^[a-zA-Z0-9][a-zA-Z0-9@._:-]*$/;
 
-const isValidServiceList = (
-  serviceNames: unknown,
-): serviceNames is string[] =>
+const isValidServiceList = (serviceNames: unknown): serviceNames is string[] =>
   Array.isArray(serviceNames) &&
   serviceNames.length > 0 &&
   serviceNames.every(
@@ -22,10 +20,7 @@ const isValidServiceList = (
       !serviceName.startsWith('-'),
   );
 
-const forwardOutput = (
-  listener: ProgressListener,
-  output: string,
-): void => {
+const forwardOutput = (listener: ProgressListener, output: string): void => {
   output
     .split(/\r?\n/)
     .map((line) => line.trim())

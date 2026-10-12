@@ -13,7 +13,7 @@ export const SERVICES: Service[] = [
     serviceName: 'firewalld.service',
   },
   {
-    label: "Lact",
+    label: 'Lact',
     serviceName: 'lact.service',
   },
   {

@@ -1,11 +1,14 @@
 import { useEffect, useState } from 'react';
-import { Check, RefreshCw, SlidersHorizontal, WandSparkles } from 'lucide-react';
+import {
+  Check,
+  RefreshCw,
+  SlidersHorizontal,
+  WandSparkles,
+} from 'lucide-react';
 import { TWEAKS } from '../../data/tweaks';
 
 const Tweaks: React.FC = (): React.JSX.Element => {
-  const [selectedTweaks, setSelectedTweaks] = useState<Set<number>>(
-    new Set(),
-  );
+  const [selectedTweaks, setSelectedTweaks] = useState<Set<number>>(new Set());
   const [isApplying, setIsApplying] = useState(false);
   const [applyResult, setApplyResult] = useState<{
     success: boolean;

@@ -42,13 +42,13 @@ const getCommand = (tweakIndex: number): Command => {
     };
   }
 
-  return { executable: ` /usr/bin/${executable}`.trim(), arguments: argumentsToPass };
+  return {
+    executable: ` /usr/bin/${executable}`.trim(),
+    arguments: argumentsToPass,
+  };
 };
 
-const forwardOutput = (
-  listener: ProgressListener,
-  output: string,
-): void => {
+const forwardOutput = (listener: ProgressListener, output: string): void => {
   output
     .split(/\r?\n/)
     .map((line) => line.trim())
@@ -76,7 +76,10 @@ const runCommand = (
     childProcess.stderr.on('data', handleOutput);
     childProcess.on('error', (error) => {
       log.error('Failed to apply tweak', error);
-      resolve({ success: false, output: `Could not start tweak: ${error.message}` });
+      resolve({
+        success: false,
+        output: `Could not start tweak: ${error.message}`,
+      });
     });
     childProcess.on('close', (code) =>
       resolve({ success: code === 0, output: output.trim() }),

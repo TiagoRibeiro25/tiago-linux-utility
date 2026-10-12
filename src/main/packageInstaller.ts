@@ -32,10 +32,7 @@ const getInstallCommand = (packageNames: string[]): string[] => {
   ];
 };
 
-const forwardOutput = (
-  listener: ProgressListener,
-  output: string,
-): void => {
+const forwardOutput = (listener: ProgressListener, output: string): void => {
   output
     .split(/\r?\n/)
     .map((line) => line.trim())

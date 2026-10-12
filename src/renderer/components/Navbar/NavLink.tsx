@@ -1,6 +1,12 @@
 import { useNavigate } from 'react-router';
 import { twMerge } from 'tailwind-merge';
-import { CircleHelp, Cog, Package, Server, SlidersHorizontal } from 'lucide-react';
+import {
+  CircleHelp,
+  Cog,
+  Package,
+  Server,
+  SlidersHorizontal,
+} from 'lucide-react';
 
 type Props = {
   path: string;
@@ -38,7 +44,9 @@ const NavLink: React.FC<Props> = ({
         size={17}
         className={twMerge(
           'transition-colors',
-          isSelected ? 'text-sky-300' : 'text-white/35 group-hover:text-white/70',
+          isSelected
+            ? 'text-sky-300'
+            : 'text-white/35 group-hover:text-white/70',
         )}
       />
       <span>{label}</span>

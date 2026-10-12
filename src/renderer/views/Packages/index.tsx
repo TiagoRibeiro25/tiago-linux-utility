@@ -36,7 +36,10 @@ const Packages: React.FC = (): React.JSX.Element => {
 
   useEffect(() => {
     return window.electron.packages.onInstallProgress((message: string) => {
-      setInstallProgress((currentProgress: string[]) => [...currentProgress, message]);
+      setInstallProgress((currentProgress: string[]) => [
+        ...currentProgress,
+        message,
+      ]);
     });
   }, []);
 

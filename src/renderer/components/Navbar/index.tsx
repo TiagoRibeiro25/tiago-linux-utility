@@ -10,7 +10,10 @@ const Navbar: React.FC = (): React.JSX.Element => {
   const currentPath = location.pathname;
 
   const handleGitClick = (): void => {
-    window.open('https://github.com/TiagoRibeiro25/tiago-linux-utility', '_blank');
+    window.open(
+      'https://github.com/TiagoRibeiro25/tiago-linux-utility',
+      '_blank',
+    );
   };
 
   return (

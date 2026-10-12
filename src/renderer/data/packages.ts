@@ -268,6 +268,11 @@ export const PACKAGES: Package[] = [
     category: 'Utilities',
   },
   {
+    label: 'TLP Power Daemon',
+    packageName: 'tlp-pd',
+    category: 'Utilities',
+  },
+  {
     label: 'TLPUI',
     packageName: 'tlpui',
     category: 'Utilities',
